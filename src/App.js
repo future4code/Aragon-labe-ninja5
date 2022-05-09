@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component{
+  state = {
+    varMin: "",
+    varMax: "",
+    nomeTitulo: "",
+    listaDeServiços: []
+  }
+
+onChangeMin = (e) => {
+  this.setState({
+    varMin: e.target.value
+  })
 }
 
-export default App;
+onChangeMax = (e) => {
+  this.setState({
+    varMax: e.target.value
+  })
+}
+
+onChangeTitulo = (e) => {
+  this.setState({
+    nomeTitulo: e.target.value
+  })
+}
+
+render () {
+  return (
+    <main>
+      <div>
+        <h1> Labework </h1>
+        <button> Ir para HomePage </button>
+        <button> ir para Carrinho de Compras </button>
+      </div>
+      <hr/>
+      <div>
+        <h2> Bem-vindo(a) a Labework! </h2>
+        <button onClick={this.CadastrarServiço}> Cadastrar um Job </button>
+        <button onClick={this.ListaServiços}> Contratar Jobs </button>
+      </div>
+    </main>
+  )
+}
+}
