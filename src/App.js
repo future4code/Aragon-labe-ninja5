@@ -1,46 +1,66 @@
 import React from "react";
+import PaginaInicial from "./components/PaginaInicial";
+import Carrinho from "./components/Carrinho";
+import ListaServiço from "./components/ListaServiços";
+import CadastrarServiço from "./components/CadastrarServiço";
+import Header from "./components/Header";
 
 export default class App extends React.Component{
   state = {
-    varMin: "",
-    varMax: "",
-    nomeTitulo: "",
-    listaDeServiços: []
+    telaAtual: "paginaInicial"
   }
 
-onChangeMin = (e) => {
-  this.setState({
-    varMin: e.target.value
-  })
-}
+  escolherTela = () => {
+    switch (this.state.telaAtual) {
+      case "paginaInicial":
+        return <PaginaInicial 
+          paraCarrinho={this.paraCarrinho}
+          paraCadastro={this.paraCadastro}
+          paraContratar={this.paraContratar}
+          paraPaginaInicial={this.paraPaginaInicial}
+        />
+      case "carrinho":
+        return <Carrinho 
+          paraContratar={this.paraContratar}
+        />
+      case "cadastro":
+        return <CadastrarServiço />
+      case "contratar":
+        return <ListaServiço
+          paraPaginaInicial={this.paraPaginaInicial}
+        />
+            default:
+          <PaginaInicial />
+    }
+  }
 
-onChangeMax = (e) => {
-  this.setState({
-    varMax: e.target.value
-  })
-}
+paraPaginaInicial = () => {
+    this.setState({ telaAtual: "paginaInicial" });
+  };
 
-onChangeTitulo = (e) => {
-  this.setState({
-    nomeTitulo: e.target.value
-  })
-}
+paraCarrinho = () => {
+    this.setState({ telaAtual: "carrinho" });
+  };
+
+paraCadastro = () => {
+    this.setState({ telaAtual: "cadastro" });
+  };
+
+paraContratar = () => {
+    this.setState({ telaAtual: "contratar" });
+  };
 
 render () {
   return (
-    <main>
-      <div>
-        <h1> Labework </h1>
-        <button> Ir para HomePage </button>
-        <button> ir para Carrinho de Compras </button>
+    <div>
+      <div role="Header">
+        <Header
+          paraCarrinho={this.paraCarrinho}
+          paraPaginaInicial={this.paraPaginaInicial}
+        />
       </div>
-      <hr/>
-      <div>
-        <h2> Bem-vindo(a) a Labework! </h2>
-        <button onClick={this.CadastrarServiço}> Cadastrar um Job </button>
-        <button onClick={this.ListaServiços}> Contratar Jobs </button>
-      </div>
-    </main>
+      {this.escolherTela()}
+    </div>
   )
 }
 }

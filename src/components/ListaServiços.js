@@ -5,18 +5,41 @@ export default class ListaServiços extends React.Component{
 state = {
     varMin: "",
     varMax: "",
-    nomeTitulo: ""
+    nomeTitulo: "",
+    jobs: []
+}
+
+componentDidMount = () => {
+    this.getJobs()
+}
+
+onChangeMin = (e) => {
+    this.setState({
+        varMin: e.target.value
+    })
+}
+
+onChangeMax = (e) => {
+    this.setState({
+        varMax: e.target.value
+    })
+}
+
+onChangeTitulo = (e) => {
+    this.setState({
+        nomeTitulo: e.target.value
+    })
 }
 
 getJobs = () => {
     axios.get("https://labeninjas.herokuapp.com/jobs",
     {
         headers: {
-            Authorization: "labework"
+            Authorization: "40102aed-3e5b-4748-9666-2bd06a9207ba"
         }
     })
     .then((res) => {
-        this.setState({listaDeServiços: res.data.result.list})
+        this.setState({jobs: res.data.jobs})
     })
     .catch((err) => {
         alert("Erro! :c")
@@ -24,9 +47,17 @@ getJobs = () => {
 }
 
 render () {
-
-const serviços = this.props.listaDeServiços.map((serviço) => {
-    return <div> {serviços.title} </div>
+const servicos = this.state.jobs.map((servico) => {
+    return(
+        <div role="CardsDetalhesBásicos">
+            <h4> {servico.title} </h4>
+            <h4> Preço: {servico.price} </h4>
+            <h4> Validade: {servico.dueDate} </h4>
+            <button onClick={""}> Detalhes </button>
+            <button onClick={""}> Remover job </button>
+            <button onClick={""}> Adicionar ao carrinho </button>
+        </div>
+    )
 })
 
     return (
@@ -58,15 +89,7 @@ const serviços = this.props.listaDeServiços.map((serviço) => {
             </select>
         </label>
         </div>
-
-        <div role="CardsDetalhesBásicos">
-            <h4> {serviços.title} </h4>
-            <h4> {serviços.price} </h4>
-            <h4> {serviços.dueDate} </h4>
-            <button onClick={""}> Detalhes </button>
-            <button onClick={""}> Remover job </button>
-            <button onClick={""}> Adicionar ao carrinho </button>
-        </div>
+        {servicos}
     </main>
 )
 }
