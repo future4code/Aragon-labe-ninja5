@@ -1,7 +1,7 @@
 import  axios  from "axios";
 import React from "react";
 
-export default class App extends React.Component {
+export default class CadastrarServiço extends React.Component {
     state = {
         title:"",
         description:"",
@@ -11,7 +11,7 @@ export default class App extends React.Component {
     }
 
 handleInputValues = (event)=>{
-    this.setState({[event.target.name]:event.target.value});
+    this.setState({[event.target.name]: event.target.value});
 }
 
 handlePaymentMethods = (event) => {
@@ -20,32 +20,33 @@ handlePaymentMethods = (event) => {
 };
 
 createJob = (e) => {   
-    e.preventDefault()
+    e.preventDefault();
     const body = {
         title: this.state.title,
         description:this.state.description,
         price: Number(this.state.price),
         paymentMethods:this.state.paymentMethods,
         dueDate:this.state.dueDate,
-    }
+    };
+    const headers = {
+        headers: {
+            Authorization: "40102aed-3e5b-4748-9666-2bd06a9207ba"
+        }
+        };
     axios.post("https://labeninjas.herokuapp.com/jobs",
-    body,
-    {
-    headers: {
-        Authorization: "40102aed-3e5b-4748-9666-2bd06a9207ba"
-    }
-    }).then((res)=>{
-        alert("Cadastrado com sucesso!")
-        this.getJobs()
-    }).catch((err)=>{
-        alert("Erro! :c")
+    body, headers)
+    .then(()=>{
+        alert("Cadastrado com sucesso!");
+        this.setState({
+            title: "",
+            description: "",
+            price: 0,
+            dueDate: "",
+            paymentMethods: []
+        });
     })
-    this.setState({
-        title:"",
-        description:"",
-        price: 0,        
-        paymentMethods:[],
-        dueDate:""
+    .catch((err)=>{
+        alert("Erro! :c");
     });
 }
 
@@ -78,7 +79,7 @@ createJob = (e) => {
                     />
                 <section>
                         <h4> Formas de Pagamento </h4>
-                        <select onChange={this.handlePaymentMethods}>
+                        <select onChange={this.handlePaymentMethods} multiple>
                             <option selected disabled> Selecione uma opção </option>
                             <option value={"boleto"}> Boleto </option>
                             <option value={"credito"}> Cartão de Credito </option>
