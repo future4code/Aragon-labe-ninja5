@@ -4,10 +4,12 @@ import Carrinho from "./components/Carrinho";
 import ListaServiço from "./components/ListaServiços";
 import CadastrarServiço from "./components/CadastrarServiço";
 import Header from "./components/Header";
+import DetalhesServiços from "./components/DetalheServiços";
 
 export default class App extends React.Component{
   state = {
-    telaAtual: "paginaInicial"
+    telaAtual: "paginaInicial",
+    servicoAtual: {}
   }
 
   escolherTela = () => {
@@ -28,6 +30,12 @@ export default class App extends React.Component{
       case "contratar":
         return <ListaServiço
           paraPaginaInicial={this.paraPaginaInicial}
+          paraListaDeDetalhes={this.paraListaDeDetalhes}
+        />
+      case "detalhes":
+        return <DetalhesServiços 
+          servico={this.state.servicoAtual}
+          paraContratar={this.paraContratar}
         />
             default:
           <PaginaInicial />
@@ -49,6 +57,10 @@ paraCadastro = () => {
 paraContratar = () => {
     this.setState({ telaAtual: "contratar" });
   };
+
+paraListaDeDetalhes = (servico) => {
+  this.setState({ telaAtual: "detalhes", servicoAtual: servico });
+};
 
 render () {
   return (
