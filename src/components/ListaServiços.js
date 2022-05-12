@@ -64,7 +64,6 @@ deleteJobs = (id) => {
 //método abaixo para contratar o serviço
 updateJob = (taken, id) => {
     const body = {taken: true};
-
     axios.post(`https://labeninjas.herokuapp.com/jobs/${id}`,  body, {
         headers: {
             Authorization: "40102aed-3e5b-4748-9666-2bd06a9207ba"
@@ -87,6 +86,15 @@ const convertDate = (date) => {
     return `${dia}/${mes}/${ano}`
 };
 
+const renderizaBotaoCarrinho = (servico) => {
+    for(let servicoCarrinho of this.props.carrinho){
+        if(servicoCarrinho.id === servico.id){
+            return <button> Remover do carrinho </button>
+        }
+    }
+    return <button onClick={() => this.props.adicionarCarrinho(servico)}> Adicionar ao carrinho </button>
+}
+
 const servicos = this.state.jobs.map((servico) => {
     return(
         <div role="CardsDetalhesBásicos" key={servico.id}>
@@ -96,12 +104,7 @@ const servicos = this.state.jobs.map((servico) => {
             <p> Prazo: {convertDate(servico.dueDate)}</p>
             <button onClick={() => {this.props.paraListaDeDetalhes(servico)}}> Detalhes </button>
             <button onClick={() => {this.deleteJobs(servico.id)}}> Remover job </button>
-            {/* no método aqui em baixo eu tentei trocar os botões quando o serviço fosse removido\add ao carrinho, mas não funcionou
-            tem algum detalhe que está errado, sugiro pedir ajuda pro Yuzo*/}
-            {servico.taken ?
-            <button onClick={() => this.updateJob(false, servico.id)}> Remover ao carrinho </button> 
-            :<button onClick={() => this.updateJob(true, servico.id)}> Adicionar ao carrinho </button>
-            }
+            {renderizaBotaoCarrinho(servico)}
         </div>
     )
 })
