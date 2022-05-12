@@ -46,15 +46,38 @@ getJobs = () => {
     })
 }
 
+deleteJobs = (id) => {
+    axios.delete(`https://labeninjas.herokuapp.com/jobs/${id}`, {
+        headers: {
+            Authorization: "40102aed-3e5b-4748-9666-2bd06a9207ba"
+        }
+    })
+    .then((res) => {
+        this.getJobs()
+        alert("Serviço deletado com sucesso!")
+    })
+    .catch((err) => {
+        alert("Erro! :c")
+    })
+}
+
 render () {
+const convertDate = (date) => {
+    const dia = date.substring(8, 10)
+    const mes = date.substring(5, 7)
+    const ano = date.substring(0, 4)
+    return `${dia}/${mes}/${ano}`
+};
+
 const servicos = this.state.jobs.map((servico) => {
     return(
         <div role="CardsDetalhesBásicos">
-            <h4> {servico.title} </h4>
-            <h4> Preço: {servico.price} </h4>
-            <h4> Validade: {servico.dueDate} </h4>
-            <button onClick={""}> Detalhes </button>
-            <button onClick={""}> Remover job </button>
+            <hr/>
+            <h3> {servico.title} </h3>
+            <p> Preço: {servico.price} </p>
+            <p> Prazo: {convertDate(servico.dueDate)}</p>
+            <button onClick={() => {this.props.paraListaDeDetalhes(servico)}}> Detalhes </button>
+            <button onClick={() => {this.deleteJobs(servico.id)}}> Remover job </button>
             <button onClick={""}> Adicionar ao carrinho </button>
         </div>
     )
@@ -89,6 +112,7 @@ const servicos = this.state.jobs.map((servico) => {
             </select>
         </label>
         </div>
+        <h2> Lista de serviços: </h2>
         {servicos}
     </main>
 )

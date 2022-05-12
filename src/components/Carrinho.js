@@ -13,12 +13,12 @@ render() {
     }
 
 return (
-    <div className="App">
-        <h2>Dados de Compra</h2>
-            <p>Preço total R$:</p>
+    <div role="Carrinho">
+        <h2> Dados de Compra </h2>
+            <p> Preço total R$: </p>
             <button onClick={() => this.props.paraContratar()}> Voltar para lista de Jobs </button> 
             <button onClick={finalizarCompra}> Finalizar Compra </button>
-        <h3>Carrinho</h3>
+        <h3> Carrinho </h3>
     </div>
 )
 }}
