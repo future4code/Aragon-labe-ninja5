@@ -9,7 +9,8 @@ import DetalhesServiços from "./components/DetalheServiços";
 export default class App extends React.Component{
   state = {
     telaAtual: "paginaInicial",
-    servicoAtual: {}
+    servicoAtual: {},
+    carrinho: []
   }
 
   escolherTela = () => {
@@ -24,6 +25,7 @@ export default class App extends React.Component{
       case "carrinho":
         return <Carrinho 
           paraContratar={this.paraContratar}
+          carrinho={this.state.carrinho}
         />
       case "cadastro":
         return <CadastrarServiço />
@@ -31,6 +33,8 @@ export default class App extends React.Component{
         return <ListaServiço
           paraPaginaInicial={this.paraPaginaInicial}
           paraListaDeDetalhes={this.paraListaDeDetalhes}
+          adicionarCarrinho={this.adicionarCarrinho}
+          carrinho={this.state.carrinho}
         />
       case "detalhes":
         return <DetalhesServiços 
@@ -61,6 +65,13 @@ paraContratar = () => {
 paraListaDeDetalhes = (servico) => {
   this.setState({ telaAtual: "detalhes", servicoAtual: servico });
 };
+
+adicionarCarrinho = (servico) => {
+  const novoServico = {...servico}
+  const novoCarrinho = [...this.state.carrinho, novoServico]
+  this.setState({carrinho: novoCarrinho})
+  alert("Serviço adicionado com sucesso!")
+}
 
 render () {
   return (
